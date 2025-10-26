@@ -132,6 +132,11 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
 
+         if (currentHeartbeat > 150f)
+        {
+            CardiacArrest();
+        }
+
         UpdateHeartbeat();
         UpdateHeartbeatAudio();
         UpdateVisionEffect();
@@ -189,6 +194,19 @@ public class PlayerMovement : MonoBehaviour
             depthOfField.active = false;
         }
     }
+
+    void CardiacArrest()
+    {
+    canMove = false;
+    moveDirection = Vector3.zero;
+    if (currentHeartbeat < 200f)
+        currentHeartbeat = 200f;
+    if (heartbeatAudio != null)
+        heartbeatAudio.Stop();
+    if (depthOfField != null)
+        depthOfField.active = false;
+    }
+
 
     IEnumerator SprintCooldown()
     {
