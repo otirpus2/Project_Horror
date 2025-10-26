@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Crosshair")]
     private GameObject crosshair;
+    
+    [Header("Inspect Mode")]
+    private bool isInspectMode = false;
 
     void Start()
     {
@@ -48,17 +51,26 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
+{
+    if (isInspectMode)
     {
-        HandleCamera();
-        HandleMovement();
-        HandleJump();
-        HandleSprint();
-        HandleCrouch();
-        ApplyGravity();
+        velocity = Vector3.zero; // freeze all movement
+        return;
     }
+
+    HandleCamera();
+    HandleMovement();
+    HandleJump();
+    HandleSprint();
+    HandleCrouch();
+    ApplyGravity();
+}
+
 
     void HandleCamera()
     {
+        if (isInspectMode) return;
+        
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
@@ -71,6 +83,8 @@ public class PlayerController : MonoBehaviour
 
     void HandleMovement()
     {
+        if (isInspectMode) return;
+        
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
@@ -87,6 +101,8 @@ public class PlayerController : MonoBehaviour
 
     void HandleJump()
     {
+        if (isInspectMode) return;
+        
         if (controller.isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
@@ -96,6 +112,8 @@ public class PlayerController : MonoBehaviour
 
     void HandleSprint()
     {
+        if (isInspectMode) return;
+        
         if (Input.GetKey(KeyCode.LeftShift) && canSprint && controller.velocity.magnitude > 0.1f)
         {
             sprintTimer += Time.deltaTime;
@@ -115,6 +133,8 @@ public class PlayerController : MonoBehaviour
 
     void HandleCrouch()
     {
+        if (isInspectMode) return;
+        
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             isCrouching = !isCrouching;
@@ -123,8 +143,26 @@ public class PlayerController : MonoBehaviour
     }
 
     void ApplyGravity()
-    {
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
-    }
+{
+    if (isInspectMode) return;
+
+    velocity.y += gravity * Time.deltaTime;
+    controller.Move(velocity * Time.deltaTime);
+}
+
+    
+    // Public method to enable/disable inspect mode
+   public void SetInspectMode(bool inspecting)
+{
+    isInspectMode = inspecting;
+
+    // Freeze velocity if entering inspect mode
+    if (isInspectMode)
+        velocity = Vector3.zero;
+
+    // Hide/show crosshair
+    if (crosshair != null)
+        crosshair.SetActive(!inspecting);
+}
+
 }

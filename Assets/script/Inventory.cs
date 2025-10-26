@@ -5,7 +5,11 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
 
-    private void Awake()
+    public List<Item> items = new List<Item>();
+    public int maxItems = 20;
+    public Item equippedItem;
+
+    void Awake()
     {
         if (instance == null)
             instance = this;
@@ -13,8 +17,15 @@ public class Inventory : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public List<Item> items = new List<Item>();
-    public int maxItems = 20;
+    void Update()
+    {
+        if (items.Count > 0 && Input.GetKeyDown(KeyCode.Alpha1))
+            EquipItem(0);
+        if (items.Count > 1 && Input.GetKeyDown(KeyCode.Alpha2))
+            EquipItem(1);
+        if (items.Count > 2 && Input.GetKeyDown(KeyCode.Alpha3))
+            EquipItem(2);
+    }
 
     public void AddItem(Item newItem)
     {
@@ -26,5 +37,16 @@ public class Inventory : MonoBehaviour
 
         items.Add(newItem);
         Debug.Log($"Picked up: {newItem.itemName}");
+
+        if (equippedItem == null)
+            EquipItem(items.Count - 1);
+    }
+
+    void EquipItem(int index)
+    {
+        if (index < 0 || index >= items.Count) return;
+
+        equippedItem = items[index];
+        Debug.Log($"Equipped: {equippedItem.itemName}");
     }
 }

@@ -2026,6 +2026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   items: []
   maxItems: 20
+  equippedItem: {fileID: 0}
 --- !u!4 &1057106813
 Transform:
   m_ObjectHideFlags: 0
@@ -5042,7 +5043,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
   item: {fileID: 11400000, guid: 222c185cdf1752245b25a54f2e3e8bf3, type: 2}
   pickupRange: 3
+  isInteractable: 0
   pickupText: {fileID: 473187616}
+  glowColor: {r: 1, g: 0.8, b: 0.2, a: 1}
+  glowIntensity: 2
+  pulseSpeed: 2
+  inspectDistance: 2
+  inspectRotationSpeed: 100
+  zoomSpeed: 5
 --- !u!65 &1854014619
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5347,7 +5355,7 @@ MonoBehaviour:
   walkSpeed: 6
   runSpeed: 12
   jumpPower: 7
-  gravity: 10
+  gravity: 15
   lookSpeed: 2
   lookXLimit: 45
   defaultHeight: 2
