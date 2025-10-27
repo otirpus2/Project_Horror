@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Sprint Settings")]
     public float sprintDuration = 5f;
-    public float sprintCooldown = 5f;
+    public float sprintCooldown = 7f;
     private float sprintTimer;
     private bool canSprint = true;
 
