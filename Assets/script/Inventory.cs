@@ -133,9 +133,12 @@ public class Inventory : MonoBehaviour
 
         if (equippedItem == null)
             EquipItem(items.Count - 1);
+
+        FindObjectOfType<InventoryUI>()?.RefreshUI();
+
     }
 
-    void EquipItem(int index)
+    public void EquipItem(int index)
     {
         if (index < 0 || index >= items.Count) return;
 
@@ -168,7 +171,8 @@ public class Inventory : MonoBehaviour
         currentEquippedObject.transform.localPosition = Vector3.zero;
         currentEquippedObject.transform.localRotation = Quaternion.identity;
         Debug.Log($"Equipped: {equippedItem.itemName} -> Spawned prefab: {equippedItem.itemPrefab.name} at {GetTransformPath(handPosition)}");
-    }
+    FindObjectOfType<InventoryUI>()?.RefreshUI();
+}
 
     // helper to show path of ScriptableObject in project for logs (best effort)
     static string GetObjectPath(Object obj)
