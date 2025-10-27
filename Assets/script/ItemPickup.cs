@@ -251,18 +251,31 @@ public class ItemPickup : MonoBehaviour
     }
 
     void Pickup()
-    {
-        if (pickupText != null)
-            pickupText.gameObject.SetActive(false);
+{
+    if (pickupText != null)
+        pickupText.gameObject.SetActive(false);
 
-        EnableGlow(false);
+    EnableGlow(false);
 
-        if (isInspecting && playerController != null)
-            playerController.SetInspectMode(false);
+    if (isInspecting && playerController != null)
+        playerController.SetInspectMode(false);
 
-        Inventory.instance.AddItem(item);
-        Destroy(gameObject);
-    }
+    // DEBUG: print what item we are about to add
+    Debug.Log($"ItemPickup.Pickup() -> adding Item asset: {item.itemName} | prefab: {(item.itemPrefab ? item.itemPrefab.name : "NULL")}, assetPath: {GetItemAssetPath(item)}");
+
+    Inventory.instance.AddItem(item);
+    Destroy(gameObject);
+}
+
+string GetItemAssetPath(Item i)
+{
+#if UNITY_EDITOR
+    return UnityEditor.AssetDatabase.GetAssetPath(i);
+#else
+    return i != null ? i.name : "NULL";
+#endif
+}
+
 
     void OnDestroy()
     {

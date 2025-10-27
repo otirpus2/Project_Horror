@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   itemName: Flashlight
   icon: {fileID: 0}
+  itemPrefab: {fileID: 100000, guid: 9a3b57f0a1248be419dd9c4d54748512, type: 3}
